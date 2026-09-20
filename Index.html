@@ -1,0 +1,476 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ana Luísa - Uma Declaração do Meu Coração</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #e11d48; /* Rose 600 */
+            --primary-light: #fda4af; /* Rose 300 */
+            --bg-color: #fff1f2; /* Rose 50 */
+            --text-dark: #4c0519; /* Rose 900 */
+            --text-light: #881337; /* Rose 800 */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .font-cursive { font-family: 'Dancing Script', cursive; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero-bg {
+            background: linear-gradient(rgba(255, 241, 242, 0.8), rgba(255, 241, 242, 0.8)), url('https://placehold.co/1920x1080/ffe4e6/be123c?text=Foto+de+Fundo') center/cover no-repeat fixed;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Floating Hearts Animation */
+        .heart-float {
+            position: absolute;
+            color: var(--primary-light);
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-100px) scale(1.2) rotate(20deg); opacity: 0.8; }
+            100% { transform: translateY(-200px) scale(1) rotate(-20deg); opacity: 0; }
+        }
+
+        /* Section Transitions */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            visibility: hidden;
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+            visibility: visible;
+        }
+
+        /* Timeline Styles */
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--primary-light);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 4px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-item.left { left: 0; }
+        .timeline-item.right { left: 50%; }
+        .timeline-item::after {
+            content: '\f004'; /* Heart icon from FA */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            right: -15px;
+            background-color: var(--bg-color);
+            border: 4px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        .timeline-item.right::after { left: -15px; }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(225, 29, 72, 0.2);
+        }
+
+        /* Photo Gallery Grid */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            aspect-ratio: 1;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(76, 5, 25, 0.8));
+            color: white;
+            padding: 20px 15px 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+        .photo-item:hover .photo-caption {
+            transform: translateY(0);
+        }
+
+        /* Music Player Fixed */
+        .music-player-fixed {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(225, 29, 72, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        .music-player-fixed:hover {
+            transform: scale(1.05);
+        }
+        .play-btn {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s;
+        }
+        .play-btn:hover { background: #be123c; }
+
+        /* Media Queries for Responsiveness */
+        @media screen and (max-width: 768px) {
+            .timeline-container::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-item.right { left: 0; }
+            .timeline-item::after { left: 15px; right: auto; }
+            .timeline-item.right::after { left: 15px; }
+            .hero-bg h1 { font-size: 3.5rem; }
+            .music-player-fixed {
+                bottom: 10px; right: 10px; padding: 8px 15px;
+                border-radius: 12px;
+            }
+            .music-info { display: none; } /* Hide text on very small screens */
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-rose-200 selection:text-rose-900">
+
+    <!-- Audio Element (Substitua o src pelo link da sua música) -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/16/audio_03d98fb9ec.mp3?filename=romantic-acoustic-guitar-background-music-110034.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-center flex-col overflow-hidden" id="home">
+        <div id="hearts-container" class="absolute inset-0 pointer-events-none overflow-hidden z-0"></div>
+        
+        <div class="z-10 px-4 fade-in-section">
+            <h2 class="font-serif italic text-rose-600 text-xl md:text-2xl mb-4 tracking-widest">UM PEDIDO DE PERDÃO E UMA PROMESSA</h2>
+            <h1 class="font-cursive text-6xl md:text-8xl lg:text-9xl text-rose-800 mb-6 drop-shadow-sm">Para Ana Luísa</h1>
+            <p class="font-light text-lg md:text-xl text-rose-900 max-w-2xl mx-auto mb-10">
+                Neste momento, nossos caminhos estão separados para que eu possa me reerguer e amadurecer como homem. Mas eu precisava deixar registrado o quanto você foi e sempre será importante para mim.
+            </p>
+            <button onclick="scrollToTimeline()" class="bg-rose-600 hover:bg-rose-700 text-white font-medium py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                Ler a carta <i class="fas fa-arrow-down ml-2 animate-bounce"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Love Letter Section with Wikipedia Bio Style -->
+    <section class="py-20 px-4 md:px-8 bg-white" id="letter">
+        <div class="max-w-5xl mx-auto fade-in-section">
+            <div class="flex flex-col md:flex-row gap-12 items-start">
+                
+                <!-- Text Side (The Letter) -->
+                <div class="flex-1 space-y-6">
+                    <i class="fas fa-quote-left text-4xl text-rose-200 mb-2"></i>
+
+                    <!-- Nota sobre a caixinha com o colar -->
+                    <div class="p-5 bg-rose-50 border-l-4 border-rose-500 rounded-r-xl text-rose-900 font-sans text-sm md:text-base leading-relaxed italic shadow-sm">
+                        <span class="font-semibold text-rose-700 block not-italic mb-1"><i class="fas fa-gift mr-2"></i>Antes de você continuar lendo...</span>
+                        Quero que saiba que a caixinha com o colar foi comprada com muito amor e carinho, originalmente para o nosso próximo aniversário de namoro. Guardei esse presente pensando em você e no quanto a nossa história significa para mim.
+                    </div>
+
+                    <h2 class="font-serif text-3xl md:text-4xl text-rose-800 font-bold mb-6">Para a sua menininha interior...</h2>
+                    <div class="font-serif text-lg md:text-xl leading-relaxed text-gray-700 space-y-5">
+                        <p>
+                            Esta declaração é dedicada, antes de tudo, à menininha que existe dentro de você. Aquela criança pura, cheia de sonhos e luz, que sempre mereceu sorrir e ser imensamente feliz.
+                        </p>
+                        <p>
+                            Eu sei que, infelizmente, deixei meus problemas pessoais tomarem conta de mim. No processo de me perder e estragar as coisas na minha vida, acabei machucando você e tirando a sua alegria — e essa é a minha maior dor hoje.
+                        </p>
+                        <p>
+                            Enquanto eu busco me resolver, me curar e me tornar a pessoa que você realmente merece ter ao lado, criei este espaço. Não para te pressionar, mas para honrar o que vivemos, pedir perdão e lembrar a essa sua criança interior que ela é muito amada e especial.
+                        </p>
+                    </div>
+                    <i class="fas fa-quote-right text-4xl text-rose-200 mt-2 block text-right"></i>
+                </div>
+
+                <!-- Photo Side -->
+                <div class="w-full md:w-80 shrink-0">
+                    <div class="bg-white p-4 rounded-xl shadow-2xl border border-rose-50 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <!-- Substitua o link abaixo pela foto dela pequena -->
+                        <img src="https://placehold.co/300x400/e2e8f0/475569?text=Foto+Dela+Pequena" alt="Foto de Infância" class="w-full h-auto rounded-lg object-cover">
+                        <div class="mt-4 text-center">
+                            <p class="font-cursive text-3xl text-rose-600">Sua menininha</p>
+                            <p class="text-xs text-gray-400 mt-1 font-sans">Sempre mereceu o mundo</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Momentos Especiais (Antiga Timeline) -->
+    <section class="py-24 px-4 md:px-8 bg-rose-50" id="timeline">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20 fade-in-section">
+                <h2 class="font-cursive text-5xl md:text-6xl text-rose-800 mb-4">Lembranças que Guardo</h2>
+                <p class="font-serif text-gray-600 italic text-lg md:text-xl">Momentos preciosos que marcaram meu coração para sempre.</p>
+            </div>
+
+            <div class="space-y-24 md:space-y-32">
+                <!-- Momento 1: Piquenique -->
+                <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16 fade-in-section">
+                    <div class="w-full md:w-1/2">
+                        <div class="overflow-hidden rounded-2xl shadow-xl">
+                            <!-- Substitua o src abaixo pela foto do piquenique -->
+                            <img src="https://placehold.co/800x600/fecdd3/881337?text=Foto+do+Piquenique" alt="Nosso Primeiro Piquenique" class="w-full h-auto hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 space-y-4">
+                        <span class="text-rose-500 font-semibold tracking-wider text-sm uppercase">Uma tarde inesquecível</span>
+                        <h3 class="font-serif text-3xl md:text-4xl text-gray-800 font-bold">Nosso Primeiro Piquenique</h3>
+                        <p class="text-gray-600 text-lg leading-relaxed">
+                            Aquele dia ficou perfeitamente gravado na minha memória. Uma tarde simples, mas que se tornou um dos meus momentos favoritos. Entre as nossas conversas, as risadas e o vento no rosto, eu olhei para você e soube que a verdadeira felicidade estava ali, exatamente ao meu lado.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Momento 2: Buquê -->
+                <div class="flex flex-col md:flex-row-reverse items-center gap-10 md:gap-16 fade-in-section">
+                    <div class="w-full md:w-1/2">
+                        <div class="overflow-hidden rounded-2xl shadow-xl">
+                            <!-- Substitua o src abaixo pela foto do buquê -->
+                            <img src="https://placehold.co/800x600/fda4af/4c0519?text=O+Primeiro+Buqu%C3%AA" alt="O Primeiro Buquê de Flores" class="w-full h-auto hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 space-y-4 md:text-right">
+                        <span class="text-rose-500 font-semibold tracking-wider text-sm uppercase">Surpresa e sorrisos</span>
+                        <h3 class="font-serif text-3xl md:text-4xl text-gray-800 font-bold">O Primeiro Buquê</h3>
+                        <p class="text-gray-600 text-lg leading-relaxed">
+                            Ainda me lembro da surpresa e do brilho nos seus olhos quando te entreguei aquelas flores. Você sempre mereceu as coisas mais lindas e delicadas que o mundo tem a oferecer. Ver o seu sorriso sincero naquele momento encheu meu peito de alegria.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Momento 3: Vestido de Noiva -->
+                <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16 fade-in-section">
+                    <div class="w-full md:w-1/2">
+                        <div class="overflow-hidden rounded-2xl shadow-xl relative">
+                            <!-- Substitua o src abaixo pela foto do vestido de noiva -->
+                            <img src="https://placehold.co/800x600/fb7185/ffffff?text=Provador+de+Noiva" alt="Provador de Vestido de Noiva" class="w-full h-auto hover:scale-105 transition-transform duration-700">
+                            <div class="absolute -bottom-6 -right-6 text-6xl opacity-20 text-rose-600 pointer-events-none">
+                                <i class="fas fa-ring"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 space-y-4">
+                        <span class="text-rose-500 font-semibold tracking-wider text-sm uppercase">Um sonho que guardo</span>
+                        <h3 class="font-serif text-3xl md:text-4xl text-gray-800 font-bold">O Provador de Noivas</h3>
+                        <div class="text-gray-600 text-lg leading-relaxed space-y-4">
+                            <p>
+                                O dia em que você estava fazendo o provador de vestidos de noiva mexeu comigo de uma forma profunda. Você parecia uma rainha, a mulher mais deslumbrante que já vi. Mesmo com tudo que estamos passando agora, quero que saiba de uma coisa do fundo do meu coração: <strong>eu ainda quero ver você vestida assim, caminhando em minha direção.</strong>
+                            </p>
+                            
+                            <div class="pt-4 mt-4 border-t border-rose-200">
+                                <h4 class="font-serif text-2xl text-rose-800 font-bold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-heart text-rose-500 text-xl"></i> Meu Pedido
+                                </h4>
+                                <p class="mb-3">
+                                    Por favor, o meu maior pedido hoje é que você me espere. Me dê o tempo necessário para que eu possa consertar as minhas finanças, colocar a minha vida nos eixos e curar o meu psicológico. Eu quero me tornar o homem forte e seguro que você merece ter ao seu lado.
+                                </p>
+                                <p class="font-medium text-rose-800">
+                                    Eu acredito, com toda a minha fé, que Deus tem um propósito lindo em nossas vidas e na nossa história. Eu nunca vou desistir de nós, porque quem ama de verdade, não desiste. E o meu amor por você suporta qualquer tempestade.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-rose-900 text-white text-center py-10">
+        <p class="font-cursive text-3xl mb-4">Eu & Você</p>
+        <p class="font-light text-rose-200 text-sm">Feito com <i class="fas fa-heart text-red-500 animate-pulse"></i> para o amor da minha vida.</p>
+    </footer>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        // --- 1. Lógica do Áudio em Segundo Plano (Sem Player Visível) ---
+        const audio = document.getElementById('bgMusic');
+        let musicStarted = false;
+
+        function startMusic() {
+            if (!musicStarted && audio) {
+                audio.volume = 0.5;
+                audio.play().catch(e => console.log("Aguardando interação do usuário."));
+                musicStarted = true;
+            }
+        }
+
+        // Inicia a música no primeiro clique ou toque do usuário em qualquer lugar da página
+        document.addEventListener('click', startMusic, { once: true });
+        document.addEventListener('touchstart', startMusic, { once: true });
+
+
+        // --- 2. Animação de Scroll (Fade In Elements) ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Elemento aparece quando 15% estiver visível
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Para animar apenas uma vez
+                }
+            });
+        }, observerOptions);
+
+        // Seleciona todos os elementos com a classe fade-in-section
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+
+
+        // --- 3. Navegação Suave ---
+        function scrollToTimeline() {
+            startMusic(); // Garante que a música toque ao clicar no botão ler carta
+            const timelineSection = document.getElementById('letter');
+            timelineSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+        // --- 4. Animação de Corações Flutuantes no Hero ---
+        const container = document.getElementById('hearts-container');
+        const heartIcons = ['fa-heart', 'fa-heart-circle-check', 'fa-heart-pulse'];
+
+        function createHeart() {
+            const heart = document.createElement('i');
+            const randomIcon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            heart.classList.add('fa-solid', randomIcon, 'heart-float');
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            
+            const size = Math.random() * 20 + 10;
+            heart.style.fontSize = size + 'px';
+            
+            const duration = Math.random() * 5 + 4;
+            heart.style.animationDuration = duration + 's';
+            
+            heart.style.animationDelay = Math.random() * 5 + 's';
+
+            container.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createHeart, 800);
+
+        for(let i = 0; i < 15; i++) {
+            setTimeout(createHeart, Math.random() * 2000);
+        }
+    </script>
+</body>
+</html>
+```
